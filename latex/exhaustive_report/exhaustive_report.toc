@@ -30,29 +30,34 @@
 \contentsline {subsection}{\numberline {6.1}How to read the state trajectory plot}{8}{subsection.6.1}%
 \contentsline {subsection}{\numberline {6.2}Presentation explanation for Figure 1}{10}{subsection.6.2}%
 \contentsline {subsection}{\numberline {6.3}Interpretation of the state trajectories}{10}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4}How to read the boundary violation plot}{10}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}Presentation explanation for Figure 2}{10}{subsection.6.5}%
-\contentsline {subsection}{\numberline {6.6}Interpretation of the boundary violations}{11}{subsection.6.6}%
-\contentsline {subsection}{\numberline {6.7}How to read the V-I hysteresis plot}{11}{subsection.6.7}%
-\contentsline {subsection}{\numberline {6.8}Why clipping is used for V-I curves}{11}{subsection.6.8}%
-\contentsline {subsection}{\numberline {6.9}Presentation explanation for Figure 3}{11}{subsection.6.9}%
-\contentsline {subsection}{\numberline {6.10}Interpretation of the hysteresis loops}{12}{subsection.6.10}%
-\contentsline {subsection}{\numberline {6.11}How to read the runtime plot}{12}{subsection.6.11}%
-\contentsline {subsection}{\numberline {6.12}Presentation explanation for Figure 4}{12}{subsection.6.12}%
-\contentsline {section}{\numberline {7}Method-by-Method Discussion}{12}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Explicit Euler}{12}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}RK4}{13}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3}Implicit Euler}{13}{subsection.7.3}%
-\contentsline {section}{\numberline {8}Important Distinctions}{13}{section.8}%
-\contentsline {subsection}{\numberline {8.1}Accuracy versus stability}{13}{subsection.8.1}%
-\contentsline {subsection}{\numberline {8.2}Numerical validity versus physical validity}{13}{subsection.8.2}%
-\contentsline {subsection}{\numberline {8.3}Raw result versus clipped result}{13}{subsection.8.3}%
-\contentsline {section}{\numberline {9}Limitations}{13}{section.9}%
-\contentsline {subsection}{\numberline {9.1}Simplified memristor model}{13}{subsection.9.1}%
-\contentsline {subsection}{\numberline {9.2}No adaptive step size}{14}{subsection.9.2}%
-\contentsline {subsection}{\numberline {9.3}No built-in bound-preserving solver}{14}{subsection.9.3}%
-\contentsline {subsection}{\numberline {9.4}Runtime is environment-dependent}{14}{subsection.9.4}%
-\contentsline {section}{\numberline {10}Conclusion}{14}{section.10}%
-\contentsline {subsection}{\numberline {10.1}Main conclusion}{14}{subsection.10.1}%
-\contentsline {subsection}{\numberline {10.2}What the plots collectively show}{14}{subsection.10.2}%
-\contentsline {subsection}{\numberline {10.3}Final presentation takeaway}{14}{subsection.10.3}%
+\contentsline {subsection}{\numberline {6.4}Why the timestep trend is not clean}{10}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Does coarse RK4 being bounded mean coarse RK4 is good?}{11}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.6}How to read the boundary violation plot}{11}{subsection.6.6}%
+\contentsline {subsection}{\numberline {6.7}Presentation explanation for Figure 2}{11}{subsection.6.7}%
+\contentsline {subsection}{\numberline {6.8}Interpretation of the boundary violations}{11}{subsection.6.8}%
+\contentsline {subsection}{\numberline {6.9}How to read the V-I hysteresis plot}{12}{subsection.6.9}%
+\contentsline {subsection}{\numberline {6.10}Why clipping is used for V-I curves}{12}{subsection.6.10}%
+\contentsline {subsection}{\numberline {6.11}Presentation explanation for Figure 3}{12}{subsection.6.11}%
+\contentsline {subsection}{\numberline {6.12}Interpretation of the hysteresis loops}{12}{subsection.6.12}%
+\contentsline {subsection}{\numberline {6.13}How to read the runtime plot}{13}{subsection.6.13}%
+\contentsline {subsection}{\numberline {6.14}Presentation explanation for Figure 4}{13}{subsection.6.14}%
+\contentsline {subsection}{\numberline {6.15}Does Explicit Euler beat the other methods because it is cheap?}{13}{subsection.6.15}%
+\contentsline {subsection}{\numberline {6.16}What should be concluded about timestep choice?}{14}{subsection.6.16}%
+\contentsline {section}{\numberline {7}Method-by-Method Discussion}{14}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Explicit Euler}{14}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}RK4}{14}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Implicit Euler}{14}{subsection.7.3}%
+\contentsline {section}{\numberline {8}Important Distinctions}{15}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Accuracy versus stability}{15}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Numerical validity versus physical validity}{15}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Apparent stability versus true resolution}{15}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Raw result versus clipped result}{15}{subsection.8.4}%
+\contentsline {section}{\numberline {9}Limitations}{15}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Simplified memristor model}{15}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}No adaptive step size}{15}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}No built-in bound-preserving solver}{16}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Runtime is environment-dependent}{16}{subsection.9.4}%
+\contentsline {section}{\numberline {10}Conclusion}{16}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Main conclusion}{16}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}What the plots collectively show}{16}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}Final presentation takeaway}{16}{subsection.10.3}%

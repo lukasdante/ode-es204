@@ -76,7 +76,7 @@ The comparison uses four output types:
 
 \section{Results}
 
-Figure~\ref{fig:state} compares the raw state trajectories. Fine step sizes keep the methods close to one another. As the step size increases, the explicit methods become more sensitive to the discretization, and bound violations become easier to observe.
+Figure~\ref{fig:state} compares the raw state trajectories. The step labels should be read carefully: \(T/400\) is the finest step size, while \(T/8\) is the coarsest. The plot should not be interpreted as a monotone ranking where coarser steps always create larger overshoot. In this stress test, the raw mathematical update is not bound-preserving, and coarse time steps can also miss parts of the sinusoidal forcing. Therefore, a coarse trajectory that stays inside \([0,D]\) is not automatically more accurate; it may simply be under-resolving the dynamics.
 
 \begin{figure}[H]
   \centering
@@ -85,7 +85,7 @@ Figure~\ref{fig:state} compares the raw state trajectories. Fine step sizes keep
   \label{fig:state}
 \end{figure}
 
-Figure~\ref{fig:bounds} summarizes boundary violations. This view makes the physical constraint explicit and helps distinguish a numerically smooth trajectory from one that is physically meaningful.
+Figure~\ref{fig:bounds} summarizes boundary violations. This view makes the physical constraint explicit and helps distinguish a numerically smooth trajectory from one that is physically meaningful. A small bar should be read together with the state plot: it can mean the method preserved the bounds, but it can also mean the method skipped over important dynamics because the step size was too coarse.
 
 \begin{figure}[H]
   \centering
@@ -103,7 +103,7 @@ Figure~\ref{fig:hysteresis} shows the resulting voltage-current curves using cli
   \label{fig:hysteresis}
 \end{figure}
 
-Figure~\ref{fig:runtime} reports relative runtime per step. These timings are not hardware-independent benchmarks, but they show the expected computational-cost pattern: Explicit Euler is cheapest per step, RK4 pays for four slope evaluations, and Implicit Euler pays for nonlinear solves.
+Figure~\ref{fig:runtime} reports relative runtime per step. These timings are not hardware-independent benchmarks, but they show the expected computational-cost pattern: Explicit Euler is cheapest per step, RK4 pays for four slope evaluations, and Implicit Euler pays for nonlinear solves. Runtime alone does not determine the best method. A cheap method that gives an under-resolved or unphysical trajectory is not better simply because it runs faster.
 
 \begin{figure}[H]
   \centering
@@ -118,8 +118,12 @@ The project illustrates the tradeoff between accuracy, stability, and computatio
 
 For this memristor problem, physical interpretation matters as much as numerical smoothness. A method can produce a curve that appears computationally well behaved while still violating \(0 \leq w \leq D\). Preserving raw trajectories and separately clipping them for physical current calculations makes this distinction visible.
 
+The non-monotone behavior across step sizes is an important presentation point. For example, RK4 can look reasonable at \(T/400\), overshoot for \(T/80\) or \(T/20\), and then appear bounded again at \(T/8\). This does not mean the coarsest RK4 run is best. It means the coarse grid is sampling the forcing so sparsely that it can miss the state movement that causes overshoot. Likewise, Explicit Euler can look attractive because it is cheap and may show smaller overshoot in some cases, but that does not prove it is the most accurate method. It is still first-order and can be wrong for reasons that are not visible from the boundary bar alone.
+
+Another reason the raw plots are irregular is the form of the memristance. With the default parameters, the linear expression for \(M(w)\) approaches zero shortly above the physical upper bound. Once a raw trajectory crosses beyond \(D\), the denominator in \(dw/dt\) can become very small, so small numerical differences can cause large changes in the next update. This makes the raw plot a stress test of the unconstrained numerical methods, not a clean proof that one method dominates all others.
+
 \section{Conclusion}
 
-Explicit Euler, RK4, and Implicit Euler provide different views of the bounded memristor IVP. RK4 is generally the most accurate explicit method among the three when the step size is sufficiently small. Explicit Euler is the simplest and is visibly step-size dependent. Implicit Euler requires nonlinear solves and may improve stability for some dynamics, but it is not a substitute for physical state constraints. The results support the proposal's central point: step-size choice, method behavior, and boundary treatment strongly affect whether the simulated memristor remains physically meaningful.
+Explicit Euler, RK4, and Implicit Euler provide different views of the bounded memristor IVP. RK4 is generally the most reliable explicit accuracy baseline when the step size is sufficiently small and the trajectory is resolved. Explicit Euler is cheapest, but cheapness does not compensate for first-order accuracy and possible under-resolution. Implicit Euler requires nonlinear solves and may improve stability for some dynamics, but it is not a substitute for physical state constraints. The results support the proposal's central point: step-size choice, method behavior, and boundary treatment strongly affect whether the simulated memristor remains physically meaningful.
 
 \end{document}

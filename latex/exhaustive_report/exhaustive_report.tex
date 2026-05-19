@@ -288,20 +288,44 @@ w/D = 0,\qquad w/D = 1.
 \]
 The physically valid region is between these two lines. Any curve above \(1\) or below \(0\) is a raw numerical result that violates the physical state constraint.
 
+The step-size labels are also important. \(T/400\) means the period is divided into 400 steps, so it is the finest timestep in the plot. \(T/8\) means only 8 steps per period, so it is the coarsest. A common mistake is to read a larger denominator as a larger timestep; here it is the opposite.
+
 \subsection{Presentation explanation for Figure 1}
 
 When presenting this figure, explain it as follows:
 \begin{quote}
-The plot shows the internal state of the memristor. A value of 0 means the doped region has zero width, and a value of 1 means it fills the device. The physical solution should stay between 0 and 1. We deliberately keep raw numerical values so we can see when a method overshoots. The different panels show different time steps. A fine step has many points per voltage period, while a coarse step has fewer points. The more a curve leaves the interval, the less physically meaningful that raw numerical trajectory is.
+The plot shows the internal state of the memristor. A value of 0 means the doped region has zero width, and a value of 1 means it fills the device. The physical solution should stay between 0 and 1. We deliberately keep raw numerical values so we can see when a method overshoots. The different panels show different time steps. \(T/400\) is fine, while \(T/8\) is coarse. A coarse curve that appears bounded is not automatically more accurate, because it may simply be skipping important parts of the motion.
 \end{quote}
 
 \subsection{Interpretation of the state trajectories}
 
-The state trajectories show that step size strongly affects the raw solution. Even higher-order or implicit methods can leave the physical interval in this stress-case setup. This is not a contradiction. RK4 improves local accuracy for smooth problems, and Implicit Euler can improve stability for certain modes, but neither method automatically knows that \(w\) is a physical length unless the algorithm includes bound enforcement.
+The state trajectories show that step size strongly affects the raw solution, but the trend is not monotone. In other words, increasing the timestep does not always create a visibly larger overshoot. A very coarse method can sometimes look better than an intermediate method because it under-samples the sinusoidal voltage and misses the portions of the cycle where the state would move strongly.
+
+This explains a pattern that may look confusing during presentation: RK4 can look reasonable for \(T/400\), overshoot for \(T/80\) or \(T/20\), and then appear bounded again for \(T/8\). This does not mean the coarsest RK4 case is the best case. It means the coarse grid is too sparse to reliably resolve the dynamics. The absence of overshoot in a coarse raw trajectory is not the same thing as accuracy.
+
+Even higher-order or implicit methods can leave the physical interval in this stress-case setup. This is not a contradiction. RK4 improves local accuracy for smooth problems, and Implicit Euler can improve stability for certain modes, but neither method automatically knows that \(w\) is a physical length unless the algorithm includes bound enforcement.
+
+\subsection{Why the timestep trend is not clean}
+
+There are two main reasons why the raw trajectories do not follow a simple coarse-step trend.
+
+First, the applied voltage is sinusoidal. If the timestep is too coarse, the method samples only a few points on the sine wave. It may miss the peak or miss the interval where the state derivative is large. This is similar to taking too few photographs of a moving object: the object may appear to move less simply because the camera missed the motion.
+
+Second, the raw memristor equation is not bound-preserving. It does not contain a mechanism that forces \(w\) to stop at \(0\) or \(D\). With the default parameters, the linear memristance formula approaches zero shortly above \(w/D=1\). Once a raw trajectory crosses the physical upper bound, the denominator in
+\[
+\frac{dw}{dt}
+=
+\frac{\mu_v R_{\text{on}} v(t)}{D^2 M(w)}
+\]
+can become very small. Small numerical differences can then cause large jumps in the next update. This makes the raw plot a stress test of unconstrained numerical updates, not a smooth ranking of methods.
+
+\subsection{Does coarse RK4 being bounded mean coarse RK4 is good?}
+
+No. A bounded-looking coarse RK4 trajectory should be treated with caution. It might be bounded because the method missed the part of the cycle that would have caused large movement. A simulation should be judged by both resolution and physical validity. If a method is too coarse to capture the forcing, it can look stable while being inaccurate.
 
 \subsection{How to read the boundary violation plot}
 
-Figure~\ref{fig:bounds} compresses the overshoot information into a bar chart. The vertical axis is the maximum violation normalized by \(D\). A value of zero means the raw trajectory stayed within the physical interval for that method and step size.
+Figure~\ref{fig:bounds} compresses the overshoot information into a bar chart. The vertical axis is the maximum violation normalized by \(D\). A value of zero means the raw trajectory stayed within the physical interval for that method and step size. However, this should be interpreted together with the state trajectory plot. A small violation can mean the method behaved well, but it can also mean the method was too coarse to see the movement.
 
 \begin{figure}[H]
   \centering
@@ -314,12 +338,14 @@ Figure~\ref{fig:bounds} compresses the overshoot information into a bar chart. T
 
 For presentation, this figure should be described as the direct physical-validity check:
 \begin{quote}
-This bar chart answers a simple question: how far did the raw computed state leave the physically allowed interval? A zero-height bar means no overshoot was observed. A taller bar means the numerical state became more physically unrealistic. This plot is important because it separates numerical smoothness from physical validity.
+This bar chart answers a simple question: how far did the raw computed state leave the physically allowed interval? A zero-height bar means no overshoot was observed. A taller bar means the numerical state became more physically unrealistic. But a zero-height or small bar is not automatically proof of accuracy, especially for coarse timesteps. This plot is important because it separates numerical smoothness from physical validity, but it should be read together with the timestep resolution.
 \end{quote}
 
 \subsection{Interpretation of the boundary violations}
 
 The boundary plot confirms that the methods do not behave identically. Explicit Euler is simple and step-size dependent. RK4 can reduce error when the solution remains smooth and sufficiently resolved, but it can still overshoot under stress. Implicit Euler solves a future-time equation, but it is still solving the unbounded mathematical update; therefore, it can also leave the physical interval.
+
+The boundary plot should not be used by itself to declare a winner. For example, Explicit Euler may have low cost and may show smaller overshoot in a particular coarse case, but it remains a first-order method. It can be cheap and still inaccurate. Similarly, RK4 can have a zero or small violation in a coarse case, but that may reflect missed dynamics rather than superior behavior.
 
 \subsection{How to read the V-I hysteresis plot}
 
@@ -349,6 +375,8 @@ The V-I plot shows the device's memory effect. Instead of getting a single strai
 
 The V-I loops show how numerical differences in \(w(t)\) influence the observable electrical behavior. Methods and step sizes that produce different clipped state histories can produce different loop shapes. This is important because in experiments and applications, the current-voltage relationship is often the visible output, while the internal state is hidden.
 
+For presentation, it is useful to connect this plot back to the raw state plot. The V-I curves are produced from clipped states, so they show a physically valid electrical response after enforcing the state interval for visualization. They do not erase the fact that the raw solver may have overshot. Therefore, the hysteresis plot is best interpreted as the observable behavior after physical clipping, while the state and boundary plots diagnose the raw numerical method.
+
 \subsection{How to read the runtime plot}
 
 Figure~\ref{fig:runtime} shows median runtime per time step. The y-axis is measured in microseconds per step. This normalizes the cost so that methods with different numbers of total steps can be compared fairly.
@@ -364,8 +392,24 @@ Figure~\ref{fig:runtime} shows median runtime per time step. The y-axis is measu
 
 For presentation, explain runtime as a secondary metric:
 \begin{quote}
-This plot compares computational cost per step. Explicit Euler is cheapest because it evaluates the derivative once. RK4 is more expensive because it evaluates four slopes per step. Implicit Euler is usually more expensive because it solves a nonlinear equation at each step. We should not overinterpret the exact numbers, but the relative cost pattern is useful.
+This plot compares computational cost per step. Explicit Euler is cheapest because it evaluates the derivative once. RK4 is more expensive because it evaluates four slopes per step. Implicit Euler is usually more expensive because it solves a nonlinear equation at each step. We should not overinterpret the exact numbers, but the relative cost pattern is useful. Cost is not enough to choose the best method: the cheapest method can still be inaccurate or physically invalid.
 \end{quote}
+
+\subsection{Does Explicit Euler beat the other methods because it is cheap?}
+
+No. Explicit Euler is the cheapest method per step, but runtime is only one metric. A method must also resolve the dynamics and preserve or at least reveal physical validity. Explicit Euler uses only one slope at the start of each step, so it is first-order accurate and strongly dependent on timestep. Its lower runtime is useful, but it does not compensate for under-resolution or incorrect state evolution.
+
+The correct presentation statement is: Explicit Euler is the cheapest baseline, RK4 is the stronger explicit accuracy baseline when the timestep is fine enough, and Implicit Euler demonstrates the cost and behavior of solving a future-time update. None of the raw methods alone is a complete physical memristor simulator because none enforces \(0 \leq w \leq D\) during the update.
+
+\subsection{What should be concluded about timestep choice?}
+
+The safe conclusion is not ``always use the lowest number of steps'' or ``always use the highest number of steps.'' The correct conclusion is that the timestep must be fine enough to resolve the forcing and the state movement. In this notation, \(T/400\) is finer than \(T/8\). A fine timestep is generally more trustworthy for resolving the ODE, but if the underlying raw model allows unphysical states, even a fine method can accurately follow the unbounded mathematical equation into an unphysical region.
+
+Therefore, a physically reliable simulation needs two things:
+\begin{itemize}[noitemsep]
+  \item sufficient timestep resolution,
+  \item a bound treatment, such as clipping, projection, or a model modification like a window function.
+\end{itemize}
 
 \section{Method-by-Method Discussion}
 
@@ -373,7 +417,7 @@ This plot compares computational cost per step. Explicit Euler is cheapest becau
 
 Explicit Euler is useful as a baseline because it is simple and transparent. It has low computational cost, but it is only first-order accurate. It is also sensitive to step size. In this project, that sensitivity matters because the state is physically bounded.
 
-The main lesson from Explicit Euler is that a method can be easy to implement but fragile under coarse time discretization.
+The main lesson from Explicit Euler is that a method can be easy to implement but fragile under time discretization. If it looks good in a coarse case, that result must still be checked against resolution and physical validity. Cheap runtime alone is not enough to make it the best method.
 
 \subsection{RK4}
 
@@ -387,6 +431,8 @@ Implicit Euler uses future-time information. This often improves stability for c
 
 The main lesson from Implicit Euler is that implicitness can help with stability, but it does not replace physical modeling decisions.
 
+In this project, Implicit Euler can look poor in the raw trajectories because it is still solving the unbounded state equation. Its nonlinear solve can follow the implicit update into the unphysical region unless a bound constraint is added. This is why the result should be described carefully: Implicit Euler has useful stability properties in many IVPs, but those properties do not automatically make it bound-preserving for this memristor model.
+
 \section{Important Distinctions}
 
 \subsection{Accuracy versus stability}
@@ -396,6 +442,10 @@ Accuracy asks whether a method is close to the true solution. Stability asks whe
 \subsection{Numerical validity versus physical validity}
 
 A numerical method can produce a finite number without producing a physically meaningful state. In this project, any raw state outside \([0,D]\) is physically invalid. This is why the boundary violation plot is essential.
+
+\subsection{Apparent stability versus true resolution}
+
+An apparently stable coarse curve can be misleading. If a method takes too few samples per period, it can miss peaks and rapid changes. This can make the output look calm even when it is not accurately representing the ODE. For this project, this distinction is central to explaining why the \(T/8\) RK4 case can appear better than some less coarse cases.
 
 \subsection{Raw result versus clipped result}
 
@@ -427,13 +477,15 @@ The project shows that solving a memristor ODE is not only about producing a cur
 
 \subsection{What the plots collectively show}
 
-The state trajectory plot shows the raw evolution of the internal state. The boundary violation plot directly identifies unphysical overshoot. The V-I hysteresis plot shows how the state affects observable electrical behavior. The runtime plot shows the computational cost tradeoff. Together, the figures support the central message: method choice, step size, and boundary handling all matter.
+The state trajectory plot shows the raw evolution of the internal state. The boundary violation plot directly identifies unphysical overshoot. The V-I hysteresis plot shows how the state affects observable electrical behavior after clipping for physical interpretation. The runtime plot shows the computational cost tradeoff. Together, the figures support the central message: method choice, step-size resolution, and boundary handling all matter.
+
+The most important plot-analysis point is that the results are not a simple competition where the lowest-cost method wins or where the coarsest bounded-looking line is best. Coarse timesteps can hide dynamics, and the raw equation can leave the physical interval. The plots should therefore be presented as evidence for why bounded physical IVPs need both numerical resolution and physical constraint handling.
 
 \subsection{Final presentation takeaway}
 
 For a presentation, the clean takeaway is:
 \begin{quote}
-The memristor has memory because its resistance depends on an internal state. Numerically solving that state equation requires care. A method can look reasonable but still produce impossible internal states. Therefore, when simulating bounded physical systems, we must compare not only accuracy and runtime, but also whether the numerical method respects physical constraints.
+The memristor has memory because its resistance depends on an internal state. Numerically solving that state equation requires care. A method can look reasonable because it is coarse, cheap, or visually smooth, but still produce impossible internal states or miss important dynamics. Therefore, when simulating bounded physical systems, we must compare not only accuracy and runtime, but also timestep resolution and whether the numerical method respects physical constraints.
 \end{quote}
 
 \end{document}

@@ -51,36 +51,41 @@
 \newlabel{fig:state}{{1}{9}{Raw normalized state trajectories for all methods and step sizes}{figure.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Presentation explanation for Figure 1}{10}{subsection.6.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Interpretation of the state trajectories}{10}{subsection.6.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}How to read the boundary violation plot}{10}{subsection.6.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Maximum raw state boundary violation normalized by device thickness.}}{10}{figure.2}\protected@file@percent }
-\newlabel{fig:bounds}{{2}{10}{Maximum raw state boundary violation normalized by device thickness}{figure.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Presentation explanation for Figure 2}{10}{subsection.6.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.6}Interpretation of the boundary violations}{11}{subsection.6.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.7}How to read the V-I hysteresis plot}{11}{subsection.6.7}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Voltage-current hysteresis loops computed from clipped physical states.}}{11}{figure.3}\protected@file@percent }
-\newlabel{fig:hysteresis}{{3}{11}{Voltage-current hysteresis loops computed from clipped physical states}{figure.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.8}Why clipping is used for V-I curves}{11}{subsection.6.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.9}Presentation explanation for Figure 3}{11}{subsection.6.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.10}Interpretation of the hysteresis loops}{12}{subsection.6.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.11}How to read the runtime plot}{12}{subsection.6.11}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Median runtime per step over repeated solver calls.}}{12}{figure.4}\protected@file@percent }
-\newlabel{fig:runtime}{{4}{12}{Median runtime per step over repeated solver calls}{figure.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.12}Presentation explanation for Figure 4}{12}{subsection.6.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7}Method-by-Method Discussion}{12}{section.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Explicit Euler}{12}{subsection.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}RK4}{13}{subsection.7.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Implicit Euler}{13}{subsection.7.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {8}Important Distinctions}{13}{section.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Accuracy versus stability}{13}{subsection.8.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Numerical validity versus physical validity}{13}{subsection.8.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Raw result versus clipped result}{13}{subsection.8.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {9}Limitations}{13}{section.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Simplified memristor model}{13}{subsection.9.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}No adaptive step size}{14}{subsection.9.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.3}No built-in bound-preserving solver}{14}{subsection.9.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.4}Runtime is environment-dependent}{14}{subsection.9.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {10}Conclusion}{14}{section.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {10.1}Main conclusion}{14}{subsection.10.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {10.2}What the plots collectively show}{14}{subsection.10.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {10.3}Final presentation takeaway}{14}{subsection.10.3}\protected@file@percent }
-\gdef \@abspage@last{14}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Why the timestep trend is not clean}{10}{subsection.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Does coarse RK4 being bounded mean coarse RK4 is good?}{11}{subsection.6.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6}How to read the boundary violation plot}{11}{subsection.6.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Maximum raw state boundary violation normalized by device thickness.}}{11}{figure.2}\protected@file@percent }
+\newlabel{fig:bounds}{{2}{11}{Maximum raw state boundary violation normalized by device thickness}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.7}Presentation explanation for Figure 2}{11}{subsection.6.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.8}Interpretation of the boundary violations}{11}{subsection.6.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.9}How to read the V-I hysteresis plot}{12}{subsection.6.9}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Voltage-current hysteresis loops computed from clipped physical states.}}{12}{figure.3}\protected@file@percent }
+\newlabel{fig:hysteresis}{{3}{12}{Voltage-current hysteresis loops computed from clipped physical states}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.10}Why clipping is used for V-I curves}{12}{subsection.6.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.11}Presentation explanation for Figure 3}{12}{subsection.6.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.12}Interpretation of the hysteresis loops}{12}{subsection.6.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.13}How to read the runtime plot}{13}{subsection.6.13}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Median runtime per step over repeated solver calls.}}{13}{figure.4}\protected@file@percent }
+\newlabel{fig:runtime}{{4}{13}{Median runtime per step over repeated solver calls}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.14}Presentation explanation for Figure 4}{13}{subsection.6.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.15}Does Explicit Euler beat the other methods because it is cheap?}{13}{subsection.6.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.16}What should be concluded about timestep choice?}{14}{subsection.6.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Method-by-Method Discussion}{14}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Explicit Euler}{14}{subsection.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}RK4}{14}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Implicit Euler}{14}{subsection.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Important Distinctions}{15}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Accuracy versus stability}{15}{subsection.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Numerical validity versus physical validity}{15}{subsection.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Apparent stability versus true resolution}{15}{subsection.8.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4}Raw result versus clipped result}{15}{subsection.8.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}Limitations}{15}{section.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Simplified memristor model}{15}{subsection.9.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}No adaptive step size}{15}{subsection.9.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.3}No built-in bound-preserving solver}{16}{subsection.9.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.4}Runtime is environment-dependent}{16}{subsection.9.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {10}Conclusion}{16}{section.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.1}Main conclusion}{16}{subsection.10.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.2}What the plots collectively show}{16}{subsection.10.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {10.3}Final presentation takeaway}{16}{subsection.10.3}\protected@file@percent }
+\gdef \@abspage@last{16}
